@@ -59,7 +59,6 @@ public class Calculator2 {
         frame.add(buttonsPanel);
 
         for (String buttonValue : buttonValues) {
-
             JButton button = new JButton(buttonValue);
             button.setFont(new Font("Arial", Font.PLAIN, 30));
             button.setFocusable(false);
@@ -75,7 +74,6 @@ public class Calculator2 {
             }
 
             buttonsPanel.add(button);
-
             button.addActionListener(e -> handleButton(buttonValue));
         }
 
@@ -84,18 +82,31 @@ public class Calculator2 {
 
     void handleButton(String value) {
 
+        
         if (value.equals("AC")) {
             clearAll();
             displayLabel.setText("0");
-        } 
-        else if ("0123456789.".contains(value)) {
+
+        
+        } else if ("0123456789.".contains(value)) {
             if (displayLabel.getText().equals("0")) {
                 displayLabel.setText(value);
             } else {
                 displayLabel.setText(displayLabel.getText() + value);
             }
-        } 
-        else if (value.equals("=")) {
+
+        
+        } else if (value.equals("√")) {
+            double numDisplay = Double.parseDouble(displayLabel.getText());
+            if (numDisplay >= 0) {
+                numDisplay = Math.sqrt(numDisplay);
+                displayLabel.setText(removeZeroDecimal(numDisplay));
+            } else {
+                displayLabel.setText("Error");
+            }
+
+        
+        } else if (value.equals("=")) {
             if (operator != null) {
                 B = displayLabel.getText();
                 double numA = Double.parseDouble(A);
@@ -112,8 +123,9 @@ public class Calculator2 {
                 displayLabel.setText(removeZeroDecimal(result));
                 clearAll();
             }
-        } 
-        else {
+
+        // Operatoren (+ - × ÷)
+        } else {
             A = displayLabel.getText();
             operator = value;
             displayLabel.setText("0");
